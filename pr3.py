@@ -1,34 +1,44 @@
-from sklearn.datasets import load_iris
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_breast_cancer
+from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
-import matplotlib.pyplot as plt  # <-- Added for plotting
+from sklearn.metrics import (
+    accuracy_score, precision_score, recall_score,
+    mean_squared_error, confusion_matrix
+)
 
-# Step 1: Load sample dataset (you can replace this with your own dataset)
-data = load_iris()
-X = data.data
-y = data.target
+# Load dataset
+X, y = load_breast_cancer(return_X_y=True)
+X = X[:, [0]]  # Only use "mean radius"
 
-# Step 2: Split dataset into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Split the data
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
 
-# Step 3: Train and evaluate the Random Forest classifier with different tree counts
-tree_counts = [190, 500, 89, 900, 80, 100]
-accuracies = []
+# Train logistic regression
+model = LogisticRegression()
+model.fit(X_train, y_train)
 
-for trees in tree_counts:
-    model = RandomForestClassifier(n_estimators=trees, random_state=42)
-    model.fit(X_train, y_train)
-    acc = accuracy_score(y_test, model.predict(X_test))
-    accuracies.append(acc)  # <-- Collect accuracy for plotting
-    print(f"{trees} trees: Accuracy = {acc:.4f}")
+# Predict
+y_pred = model.predict(X_test)
 
-# Step 4: Plotting accuracy vs number of trees
+# Evaluation
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print("Precision:", precision_score(y_test, y_pred))
+print("Recall:", recall_score(y_test, y_pred))
+print("MSE:", mean_squared_error(y_test, y_pred))
+print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
+
+# Plotting
+x_vals = np.linspace(X.min(), X.max(), 300).reshape(-1, 1)
+probs = model.predict_proba(x_vals)[:, 1]
+
 plt.figure(figsize=(8, 5))
-plt.plot(tree_counts, accuracies, marker='o', linestyle='--', color='blue')
-plt.title('Random Forest Accuracy vs Number of Trees')
-plt.xlabel('Number of Trees')
-plt.ylabel('Accuracy')
-plt.grid(True)
-plt.tight_layout()
+plt.scatter(X_test, y_test, c=y_test, cmap='bwr', edgecolor='k', label='Test Data')
+plt.plot(x_vals, probs, color='black', label='Logistic Curve')
+plt.axhline(0.5, color='gray', linestyle='--', label='Threshold = 0.5')
+plt.xlabel("Mean Radius")
+plt.ylabel("Probability of Class 1 (Benign)")
+plt.title("Logistic Regression on Breast Cancer (1 feature)")
+plt.legend()
 plt.show()
