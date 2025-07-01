@@ -4,47 +4,40 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score
 
-# Create dataset
-data = {
+# Data
+df = pd.DataFrame({
     'Age': ['Youth', 'Youth', 'Middle', 'Senior', 'Senior', 'Senior', 'Middle', 'Youth', 'Youth', 'Senior', 'Youth', 'Middle', 'Middle', 'Senior'],
     'Income': ['High', 'High', 'High', 'Medium', 'Low', 'Low', 'Low', 'Medium', 'Low', 'Medium', 'Medium', 'Medium', 'High', 'Medium'],
-    'Buys_Computer': ['No', 'No', 'Yes', 'Yes', 'Yes', 'No', 'Yes', 'No', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'No']
-}
-df = pd.DataFrame(data)
+    'Buys': ['No', 'No', 'Yes', 'Yes', 'Yes', 'No', 'Yes', 'No', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'No']
+})
 
-# Encode categorical values
+# Encoding
 le_age = LabelEncoder()
 le_income = LabelEncoder()
-le_target = LabelEncoder()
-
+le_buys = LabelEncoder()
 df['Age'] = le_age.fit_transform(df['Age'])
 df['Income'] = le_income.fit_transform(df['Income'])
-df['Buys_Computer'] = le_target.fit_transform(df['Buys_Computer'])
+df['Buys'] = le_buys.fit_transform(df['Buys'])
 
-# Split data
+# Split
 X = df[['Age', 'Income']]
-y = df['Buys_Computer']
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=0)
+y = df['Buys']
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)
 
 # Train model
 model = GaussianNB()
 model.fit(X_train, y_train)
 
-# Evaluate model
-y_pred = model.predict(X_test)
-print("Accuracy:", accuracy_score(y_test, y_pred))
+# Accuracy
+print("Accuracy:", accuracy_score(y_test, model.predict(X_test)))
 
 # Predict new data
-new_data = pd.DataFrame({'Age': ['Youth', 'Senior'], 'Income': ['High', 'Low']})
-new_data['Age'] = le_age.transform(new_data['Age'])
-new_data['Income'] = le_income.transform(new_data['Income'])
+new = pd.DataFrame({'Age': ['Youth', 'Senior'], 'Income': ['High', 'Low']})
+new['Age'] = le_age.transform(new['Age'])
+new['Income'] = le_income.transform(new['Income'])
+pred = model.predict(new)
 
-new_pred = model.predict(new_data)
-
-# Show predictions
-print("\nPredictions:")
-for i in range(len(new_data)):
-    age = le_age.inverse_transform([new_data.loc[i, 'Age']])[0]
-    income = le_income.inverse_transform([new_data.loc[i, 'Income']])[0]
-    result = le_target.inverse_transform([new_pred[i]])[0]
-    print(f"Age: {age}, Income: {income} => Predicted: {result}")
+# Simple output
+result = le_buys.inverse_transform(pred)
+for i in range(len(result)):
+    print("Prediction", i+1, ":", result[i])
