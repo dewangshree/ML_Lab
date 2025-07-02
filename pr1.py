@@ -33,6 +33,9 @@ acc, prec, rec, spec, npv, f1, mcc = metrics(TP, TN, FP, FN)
 print("Acc=", acc, "Prec=", prec, "Rec=", rec)
 print("Spec=", spec, "NPV=", npv, "F1=", f1, "MCC=", mcc)
 
+auc_model = roc_auc_score(y_test, y_prob)
+print("Model AUC :", auc_model)
+
 plt.plot(fpr, tpr, label="AUC=%.2f" % auc1)
-plt.plot([0, 1], [0, 1], '--', label="Rand=%.2f" % auc2)
+plt.plot([0, 1], [0, 1], '--', )
 plt.legend(); plt.show()
