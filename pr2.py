@@ -5,10 +5,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
 # Load dataset
-iris = load_iris()
-X = pd.DataFrame(iris.data, columns=iris.feature_names)
-y = pd.Series(iris.target)
-
+data = load_iris()
+X = pd.DataFrame(data.data)
+y = pd.Series(data.target)
 # Split dataset
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
