@@ -1,38 +1,38 @@
-import pandas as pd
-import matplotlib.pyplot as plt
+import numpy as np, matplotlib.pyplot as plt
+from sklearn.datasets import load_breast_cancer
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import *
 
-# Sample dataset
-df = pd.DataFrame({
-    'Age': [22, 25, 47, 52, 46, 56, 23, 30, 28, 48],
-    'Salary': [15000, 29000, 48000, 60000, 52000, 83000, 18000, 40000, 39000, 79000],
-    'Buy':    [0, 0, 1, 1, 1, 1, 0, 0, 0, 1]
-})
+X, y = load_breast_cancer(return_X_y=True)
+X = X[:, :2]
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)
 
-# Split data
-X = df[['Age', 'Salary']]
-y = df['Buy']
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1)
+m = LogisticRegression().fit(X_train, y_train)
+y_pred = m.predict(X_test)
+y_prob = m.predict_proba(X_test)[:, 1]
 
-# Train & predict
-model = LogisticRegression().fit(X_train, y_train)
-y_pred = model.predict(X_test)
-y_prob = model.predict_proba(X_test)[:, 1]
+cm = confusion_matrix(y_test, y_pred)
+TN, FP, FN, TP = cm.ravel()
 
-# Metrics
-print("Acc:", accuracy_score(y_test, y_pred))
-print("Prec:", precision_score(y_test, y_pred))
-print("Rec:", recall_score(y_test, y_pred))
-print("F1:", f1_score(y_test, y_pred))
-print("AUC:", roc_auc_score(y_test, y_prob))
+# Print confusion matrix values
+print("Confusion Matrix:\n", cm)
+print("TP=", TP, "TN=", TN, "FP=", FP, "FN=", FN)
 
-# plot graph
-fpr, tpr, _ = roc_curve(y_test, y_prob)
-plt.plot(fpr, tpr)
-plt.plot([0, 1], [0, 1], '--')
-plt.title("ROC Curve")
-plt.xlabel("FPR")
-plt.ylabel("TPR")
-plt.show()
+def metrics(TP, TN, FP, FN):
+  acc = (TP + TN) / (TP + TN + FP + FN)
+  prec = TP / (TP + FP)
+  rec = TP / (TP + FN)
+  spec = TN / (TN + FP)
+  npv = TN / (TN + FN)
+  f1 = 2 * prec * rec / (prec + rec)
+  mcc = matthews_corrcoef(y_test, y_pred)
+  return acc, prec, rec, spec, npv, f1, mcc
+
+acc, prec, rec, spec, npv, f1, mcc = metrics(TP, TN, FP, FN)
+
+print("Acc=", acc, "Prec=", prec, "Rec=", rec)
+print("Spec=", spec, "NPV=", npv, "F1=", f1, "MCC=", mcc)
+
+plt.plot(fpr, tpr, label="AUC=%.2f" % auc1)
+plt.plot([0, 1], [0, 1], '--', label="Rand=%.2f" % auc2)
+plt.legend(); plt.show()
