@@ -25,7 +25,6 @@ print("Accuracy on test set:", accuracy_score(y_test, y_pred))
 new_sample = [[5.0, 3.4, 1.6, 0.4]]  # Example input
 predicted_class = model.predict(new_sample)[0]
 
-
 # Visualize the tree
 import matplotlib.pyplot as plt
 plt.figure(figsize=(12, 6))
