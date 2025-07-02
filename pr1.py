@@ -22,14 +22,11 @@ y_pred = model.predict(X_test)
 y_prob = model.predict_proba(X_test)[:, 1]
 
 # Metrics
-acc = accuracy_score(y_test, y_pred)
-prec = precision_score(y_test, y_pred)
-rec = recall_score(y_test, y_pred)
-f1 = f1_score(y_test, y_pred)
-auc = roc_auc_score(y_test, y_prob)
-
-# Print
-print(f"Acc: {acc:.2f}  Prec: {prec:.2f}  Rec: {rec:.2f}  F1: {f1:.2f}  AUC: {auc:.2f}")
+print("Acc:", accuracy_score(y_test, y_pred))
+print("Prec:", precision_score(y_test, y_pred))
+print("Rec:", recall_score(y_test, y_pred))
+print("F1:", f1_score(y_test, y_pred))
+print("AUC:", roc_auc_score(y_test, y_prob))
 
 fpr, tpr, _ = roc_curve(y_test, y_prob)
 plt.plot(fpr, tpr)
