@@ -45,8 +45,8 @@ plt.show()
 agnes_score = silhouette_score(X, agnes_labels)
 diana_score = silhouette_score(X, diana_labels)
 
-print(f"AGNES Silhouette Score: {agnes_score:.4f}")
-print(f"DIANA Silhouette Score: {diana_score:.4f}")
+print("Agnes:", round(agnes_score, 4))
+print("Diana:", round(diana_score, 4))
 
 # Print better method
 if agnes_score > diana_score:
