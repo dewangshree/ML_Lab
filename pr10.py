@@ -23,6 +23,7 @@ def evaluate(name, y_true, y_pred):
     print("Precision:", round(precision_score(y_true, y_pred), 4))
     print("Recall:", round(recall_score(y_true, y_pred), 4))
     print("F1 Score:", round(f1_score(y_true, y_pred), 4))
+    print("CM:", confusion_matrix(y_true, y_pred).ravel())
 
 evaluate("AdaBoost", y_test, ada_pred)
 evaluate("XGBoost", y_test, xgb_pred)
