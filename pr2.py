@@ -24,7 +24,7 @@ print("Accuracy on test set:", accuracy_score(y_test, y_pred))
 # Predict on new sample
 new_sample = [[5.0, 3.4, 1.6, 0.4]]  # Example input
 predicted_class = model.predict(new_sample)[0]
-print("Predicted class for new sample:", iris.target_names[predicted_class])
+
 
 # Visualize the tree
 import matplotlib.pyplot as plt
