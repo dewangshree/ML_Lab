@@ -41,3 +41,11 @@ pred = model.predict(new)
 result = le_buys.inverse_transform(pred)
 for i in range(len(result)):
     print("Prediction", i+1, ":", result[i])
+
+plt.scatter(X['Age'], X['Income'], c=y, cmap='bwr', alpha=0.6)
+plt.scatter(new['Age'], new['Income'], c=pred, cmap='cool', edgecolors='k', s=100, marker='X')
+plt.title("Naive Bayes Prediction")
+plt.xlabel("Age"), plt.ylabel("Income")
+plt.tight_layout()
+plt.show()
+
