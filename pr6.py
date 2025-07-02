@@ -43,6 +43,6 @@ for i in range(len(result)):
     print("Prediction", i+1, ":", result[i])
 
 plt.scatter(X['Age'], X['Income'], c=y)
-plt.scatter(new['Age'], new['Income'], c=pred, marker='X')
+plt.scatter(new['Age'], new['Income'], c=pred, marker='o')
 plt.show()
 
