@@ -18,7 +18,7 @@ for t in trees:
     precs.append(precision_score(y_test, y_pred))
     recs.append(recall_score(y_test, y_pred))
     f1s.append(f1_score(y_test, y_pred))
-    print(t, accs[-1], precs[-1], recs[-1], f1s[-1])
+    print(t, "A=", accs[-1], "P=", precs[-1], "R=", recs[-1], "F1=", f1s[-1])
 
 
 # Plot metrics
