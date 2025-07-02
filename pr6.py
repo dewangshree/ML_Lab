@@ -46,3 +46,17 @@ plt.scatter(X['Age'], X['Income'], c=y)
 plt.scatter(new['Age'], new['Income'], c=pred, marker='o')
 plt.show()
 
+
+import pandas as pd
+
+# Create simple meaningful dataset
+df = pd.DataFrame({
+    'Age': ['Youth', 'Youth', 'Middle', 'Senior', 'Senior', 'Senior', 'Middle', 'Youth', 'Youth', 'Senior', 'Youth', 'Middle', 'Middle', 'Senior'],
+    'Income': ['High', 'High', 'High', 'Medium', 'Low', 'Low', 'Low', 'Medium', 'Low', 'Medium', 'Medium', 'Medium', 'High', 'Medium'],
+    'Buys': ['No', 'No', 'Yes', 'Yes', 'Yes', 'No', 'Yes', 'No', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'No']
+})
+
+# Save it as a CSV file
+df.to_csv('purchase_prediction_data.csv', index=False)
+print("CSV file 'purchase_prediction_data.csv' has been created.")
+
