@@ -28,6 +28,7 @@ print("Rec:", recall_score(y_test, y_pred))
 print("F1:", f1_score(y_test, y_pred))
 print("AUC:", roc_auc_score(y_test, y_prob))
 
+# plot graph
 fpr, tpr, _ = roc_curve(y_test, y_prob)
 plt.plot(fpr, tpr)
 plt.plot([0, 1], [0, 1], '--')
