@@ -40,7 +40,7 @@ pred = model.predict(new)
 # Simple output
 result = le_buys.inverse_transform(pred)
 for i in range(len(result)):
-    print("Prediction", i+1, ":", result[i])
+   print(i+1, result[i])
 
 plt.scatter(X['Age'], X['Income'], c=y)
 plt.scatter(new['Age'], new['Income'], c=pred, marker='o')
