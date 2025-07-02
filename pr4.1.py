@@ -6,11 +6,11 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, r2_score
 
 # Create a simple dataset (Assumed)
-data = {
+df = pd.DataFrame ({
     'Hours_Studied': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     'Exam_Score':    [35, 40, 50, 55, 60, 65, 70, 78, 85, 88]
-}
-df = pd.DataFrame(data)
+})
+
 
 # Features and target
 X = df[['Hours_Studied']]
