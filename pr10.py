@@ -2,7 +2,7 @@ from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import AdaBoostClassifier
 from xgboost import XGBClassifier
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from sklearn.metrics import *
 
 # Load dataset
 X, y = load_breast_cancer(return_X_y=True)
